@@ -215,6 +215,7 @@
               rcurrent(:,i) = rcurrent(:,i)-cm
             enddo
 
+            ! update simfile
             call write_sim_file()
 
             ! AH: calculate square radius of gyration
@@ -615,15 +616,16 @@
         ierr=0
         do i=1,nseg-2  ! check segments i, j for ev
           do j=i+2,nseg
-            if (i.eq.1.and.j.eq.nseg) cycle 
-            if (movetype.eq.1) then ! crankshaft move
-              if (i.lt.pta.and.i.ge.ptb) cycle ! i not in [pta,ptb] 
-              if (j.ge.pta.and.j.lt.ptb) cycle ! j in [pta,ptb]
-            endif
-            if (movetype.eq.2) then ! stretching move
-              if (i.lt.pta.and.i.ge.ptb) cycle ! i not in [pta,ptb]
-              if (j.ge.pta+1.and.j.lt.ptb-1) cycle ! j in [pta+1,ptb-1]
-            endif
+            if (i.eq.1.and.j.eq.nseg) cycle
+            ! TODO: Review possible conditions to avoid unncessary EV checks
+!            if (movetype.eq.1) then ! crankshaft move
+!              if (i.lt.pta.and.i.ge.ptb) cycle ! i not in [pta,ptb]
+!              if (j.ge.pta.and.j.lt.ptb) cycle ! j in [pta,ptb]
+!            endif
+!            if (movetype.eq.2) then ! stretching move
+!              if (i.lt.pta.and.i.ge.ptb) cycle ! i not in [pta,ptb]
+!              if (j.ge.pta+1.and.j.lt.ptb-1) cycle ! j in [pta+1,ptb-1]
+!            endif
             p1=r(:,i)
             p2=r(:,i+1)
             p3=r(:,j)
